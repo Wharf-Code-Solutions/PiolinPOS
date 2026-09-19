@@ -78,7 +78,7 @@ export function OrderCard({ order, onFinalize, onShowTicket, justArrived }: Orde
       <ul className="mb-3 flex flex-col gap-1.5">
         {order.items.map((item) => (
           <li
-            key={item.productId + (item.sizeLabel ?? "") + (item.variant ?? "") + (item.notes ?? "")}
+            key={item.productId + (item.variant ?? "") + (item.notes ?? "")}
             className="flex items-baseline gap-2"
           >
             <span className="text-[20px] font-extrabold tabular-nums text-piolin-400 sm:text-[22px]">
@@ -89,7 +89,6 @@ export function OrderCard({ order, onFinalize, onShowTicket, justArrived }: Orde
             </span>
             <span className="text-[18px] font-semibold leading-snug text-ink-50 sm:text-[20px]">
               {item.name}
-              {item.sizeLabel && <span className="text-ink-400"> · {item.sizeLabel}</span>}
               {item.variant && <span className="text-ink-400"> · {item.variant}</span>}
             </span>
           </li>

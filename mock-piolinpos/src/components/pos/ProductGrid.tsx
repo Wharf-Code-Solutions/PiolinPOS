@@ -1,18 +1,18 @@
 import { useState } from "react";
 import { Mic } from "lucide-react";
-import { CATEGORIES, PRODUCTS, hasSizeChoice } from "../../data/products";
+import { CATEGORIES, PRODUCTS } from "../../data/products";
 import type { Product, ProductCategory } from "../../types";
 
 interface ProductGridProps {
   onAdd: (product: Product) => void;
   onVoiceOrder: () => void;
-  justAddedId: string | null;
+  justAddedId: number | null;
 }
 
 const CATEGORY_ACCENT: Record<ProductCategory, string> = {
-  Tortas: "border-l-cat-tortas",
-  Bebidas: "border-l-cat-bebidas",
-  Snacks: "border-l-cat-snacks",
+  Tacos: "border-l-cat-tortas",
+  Tortas: "border-l-cat-bebidas",
+  Refrescos: "border-l-cat-snacks",
 };
 
 export function ProductGrid({ onAdd, onVoiceOrder, justAddedId }: ProductGridProps) {
@@ -38,35 +38,34 @@ export function ProductGrid({ onAdd, onVoiceOrder, justAddedId }: ProductGridPro
       </div>
 
       <div className="grid flex-1 auto-rows-min grid-cols-2 gap-3 overflow-y-auto px-4 pb-6 sm:gap-4 sm:px-6 lg:grid-cols-3">
-        {products.map((product) => {
-          const multiSize = hasSizeChoice(product);
-          const minPrice = Math.min(...product.sizes.map((s) => s.price));
-          return (
-            <button
-              key={product.id}
-              onClick={() => onAdd(product)}
-              className={`group relative flex min-h-[112px] flex-col justify-between rounded-xl border border-l-4 bg-white p-4 text-left shadow-sm transition-all active:scale-[0.97] active:shadow-none sm:min-h-[132px] sm:p-5 ${
-                CATEGORY_ACCENT[product.category]
-              } ${
-                justAddedId === product.id
-                  ? "border-piolin-500 border-l-piolin-500 ring-2 ring-piolin-100"
-                  : "border-ink-100"
-              }`}
-            >
-              <div>
-                <span className="mb-1.5 inline-block rounded bg-ink-50 px-1.5 py-0.5 text-[11px] font-extrabold uppercase tracking-wide text-ink-400">
-                  {product.key}
-                </span>
-                <p className="text-[16px] font-bold leading-snug text-ink-900 sm:text-[17px]">
-                  {product.name}
-                </p>
-              </div>
-              <span className="font-display text-[18px] font-semibold text-ink-600 sm:text-[20px]">
-                {multiSize ? `Desde $${minPrice}` : `$${minPrice}`}
+        {products.map((product) => (
+          <button
+            key={product.id}
+            onClick={() => onAdd(product)}
+            className={`group relative flex min-h-[112px] flex-col justify-between rounded-xl border border-l-4 bg-white p-4 text-left shadow-sm transition-all active:scale-[0.97] active:shadow-none sm:min-h-[132px] sm:p-5 ${
+              CATEGORY_ACCENT[product.category]
+            } ${
+              justAddedId === product.id
+                ? "border-piolin-500 border-l-piolin-500 ring-2 ring-piolin-100"
+                : "border-ink-100"
+            }`}
+          >
+            <div>
+              <span className="mb-1.5 inline-block rounded bg-ink-50 px-1.5 py-0.5 text-[11px] font-extrabold uppercase tracking-wide text-ink-400">
+                {product.key}
               </span>
-            </button>
-          );
-        })}
+              <p className="text-[16px] font-bold leading-snug text-ink-900 sm:text-[17px]">
+                {product.name}
+              </p>
+              {product.isSuperTorta && (
+                <p className="mt-0.5 text-[12.5px] font-medium text-ink-400">Elige 2 ingredientes</p>
+              )}
+            </div>
+            <span className="font-display text-[18px] font-semibold text-ink-600 sm:text-[20px]">
+              ${product.price}
+            </span>
+          </button>
+        ))}
 
         {/* Voice order — an equally-weighted tile, not an afterthought button */}
         <button

@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 import { ProductGrid } from "../components/pos/ProductGrid";
 import { CartPanel } from "../components/pos/CartPanel";
 import { NotesModal } from "../components/pos/NotesModal";
-import { SizeModal } from "../components/pos/SizeModal";
-import { OptionModal } from "../components/pos/OptionModal";
+import { SuperTortaModal } from "../components/pos/SuperTortaModal";
 import { VoiceOrderModal } from "../components/pos/VoiceOrderModal";
 import { ConfirmOrderModal } from "../components/pos/ConfirmOrderModal";
 import { RecentOrders } from "../components/orders/RecentOrders";
@@ -13,8 +12,7 @@ import { useToasts } from "../components/common/useToasts";
 import { useOrderStore } from "../store/orderStore";
 import type { CartLine } from "../components/pos/cartTypes";
 import { mergeCartLines, newCartId } from "../components/pos/cartTypes";
-import { hasSizeChoice, hasVariantChoice } from "../data/products";
-import type { DiningOption, Product, ProductSize } from "../types";
+import type { DiningOption, Product, SuperTortaModo } from "../types";
 
 export function OrdersPage() {
   const orders = useOrderStore((s) => s.orders);
@@ -25,11 +23,9 @@ export function OrdersPage() {
   const [lines, setLines] = useState<CartLine[]>([]);
   const [customerName, setCustomerName] = useState("");
   const [diningOption, setDiningOption] = useState<DiningOption>("Para llevar");
-  const [justAddedId, setJustAddedId] = useState<string | null>(null);
+  const [justAddedId, setJustAddedId] = useState<number | null>(null);
   const [noteTargetId, setNoteTargetId] = useState<string | null>(null);
-  const [sizeProduct, setSizeProduct] = useState<Product | null>(null);
-  const [variantProduct, setVariantProduct] = useState<Product | null>(null);
-  const [toppingPending, setToppingPending] = useState<{ product: Product; size: ProductSize } | null>(null);
+  const [superTortaProduct, setSuperTortaProduct] = useState<Product | null>(null);
   const [voiceOpen, setVoiceOpen] = useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);
   const { toasts, push, dismiss } = useToasts();
@@ -42,7 +38,7 @@ export function OrdersPage() {
     }
   }, [lastEvent]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  function addLine(product: Product, size: ProductSize, variant?: string) {
+  function addLine(product: Product, variant?: string, notes?: string) {
     setLines((prev) =>
       mergeCartLines(prev, [
         {
@@ -50,10 +46,10 @@ export function OrdersPage() {
           productId: product.id,
           key: product.key,
           name: product.name,
-          unitPrice: size.price,
+          unitPrice: product.price,
           quantity: 1,
-          sizeLabel: product.sizes.length > 1 ? size.label : undefined,
           variant,
+          notes,
         },
       ]),
     );
@@ -62,36 +58,16 @@ export function OrdersPage() {
   }
 
   function handleAdd(product: Product) {
-    if (hasVariantChoice(product)) {
-      setVariantProduct(product);
+    if (product.isSuperTorta) {
+      setSuperTortaProduct(product);
       return;
     }
-    if (hasSizeChoice(product)) {
-      setSizeProduct(product);
-      return;
-    }
-    addLine(product, product.sizes[0]);
+    addLine(product);
   }
 
-  function pickSize(size: ProductSize) {
-    if (!sizeProduct) return;
-    if (size.toppingOptions && size.toppingOptions.length > 0) {
-      setToppingPending({ product: sizeProduct, size });
-      setSizeProduct(null);
-      return;
-    }
-    addLine(sizeProduct, size);
-    setSizeProduct(null);
-  }
-
-  function pickVariant(flavor: string) {
-    if (variantProduct) addLine(variantProduct, variantProduct.sizes[0], flavor);
-    setVariantProduct(null);
-  }
-
-  function pickTopping(topping: string) {
-    if (toppingPending) addLine(toppingPending.product, toppingPending.size, topping);
-    setToppingPending(null);
+  function pickSuperTorta(ingredientes: [string, string], modo: SuperTortaModo) {
+    if (superTortaProduct) addLine(superTortaProduct, ingredientes.join(" + "), modo);
+    setSuperTortaProduct(null);
   }
 
   function increment(cartId: string) {
@@ -130,7 +106,6 @@ export function OrdersPage() {
       name: l.name,
       quantity: l.quantity,
       unitPrice: l.unitPrice,
-      sizeLabel: l.sizeLabel,
       variant: l.variant,
       notes: l.notes,
     }));
@@ -188,27 +163,11 @@ export function OrdersPage() {
 
       <RecentOrders orders={orders} />
 
-      {sizeProduct && (
-        <SizeModal product={sizeProduct} onPick={pickSize} onClose={() => setSizeProduct(null)} />
-      )}
-
-      {variantProduct && (
-        <OptionModal
-          product={variantProduct}
-          subtitle="Elige el sabor"
-          options={variantProduct.variantOptions ?? []}
-          onPick={pickVariant}
-          onClose={() => setVariantProduct(null)}
-        />
-      )}
-
-      {toppingPending && (
-        <OptionModal
-          product={toppingPending.product}
-          subtitle="Elige el topping"
-          options={toppingPending.size.toppingOptions ?? []}
-          onPick={pickTopping}
-          onClose={() => setToppingPending(null)}
+      {superTortaProduct && (
+        <SuperTortaModal
+          product={superTortaProduct}
+          onPick={pickSuperTorta}
+          onClose={() => setSuperTortaProduct(null)}
         />
       )}
 

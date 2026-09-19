@@ -1,0 +1,70 @@
+{
+  "productos": [
+    {
+      "id": 1,
+      "categoria": "taco",
+      "nombre": "Taco de Asada",
+      "precio": 18,
+      "sinonimos": ["asada", "de asada", "carne asada", "tacos de asada"]
+    },
+    {
+      "id": 2,
+      "categoria": "taco",
+      "nombre": "Taco de Pastor",
+      "precio": 16,
+      "sinonimos": ["pastor", "de pastor", "al pastor", "tacos de pastor"]
+    },
+    {
+      "id": 3,
+      "categoria": "taco",
+      "nombre": "Taco de Suadero",
+      "precio": 17,
+      "sinonimos": ["suadero", "de suadero", "tacos de suadero"]
+    },
+    {
+      "id": 4,
+      "categoria": "torta",
+      "nombre": "Torta de Milanesa",
+      "precio": 45,
+      "sinonimos": ["milanesa"]
+    },
+    {
+      "id": 5,
+      "categoria": "torta",
+      "nombre": "Torta de Jamón",
+      "precio": 40,
+      "sinonimos": ["jamon", "jamón"]
+    },
+    {
+      "id": 6,
+      "categoria": "torta",
+      "nombre": "Torta de Pierna",
+      "precio": 42,
+      "sinonimos": ["pierna"]
+    },
+    {
+      "id": 7,
+      "categoria": "super_torta",
+      "nombre": "Super Torta",
+      "precio": 65,
+      "sinonimos": ["super torta", "súper torta"],
+      "ingredientesPermitidos": ["milanesa", "jamon", "pierna"],
+      "modos": ["mitad y mitad", "revuelta"],
+      "modoDefault": "mitad y mitad"
+    },
+    {
+      "id": 8,
+      "categoria": "refresco",
+      "nombre": "Coca Cola",
+      "precio": 20,
+      "sinonimos": ["coca", "coca cola", "coca-cola", "la de cola"]
+    },
+    {
+      "id": 9,
+      "categoria": "refresco",
+      "nombre": "Agua de Sabor",
+      "precio": 18,
+      "sinonimos": ["agua de sabor", "agua de jamaica", "agua de horchata", "agua fresca"]
+    }
+  ]
+}

@@ -26,9 +26,8 @@ export function ReceiptPreview({ order, onClose }: ReceiptPreviewProps) {
   }
   lines.push("");
   for (const item of order.items) {
-    const size = item.sizeLabel ? ` (${item.sizeLabel.toUpperCase()})` : "";
     const variant = item.variant ? ` - ${item.variant.toUpperCase()}` : "";
-    lines.push(`${item.quantity} × [${item.key}] ${item.name.toUpperCase()}${size}${variant}`);
+    lines.push(`${item.quantity} × [${item.key}] ${item.name.toUpperCase()}${variant}`);
   }
   if (notes.length > 0) {
     lines.push("");

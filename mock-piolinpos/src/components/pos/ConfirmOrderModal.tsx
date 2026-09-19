@@ -47,7 +47,6 @@ export function ConfirmOrderModal({
             <li key={line.cartId} className="flex items-baseline justify-between gap-3">
               <span className="text-[15px] font-medium text-ink-800">
                 {line.quantity} × {line.name}
-                {line.sizeLabel && <span className="text-ink-500"> ({line.sizeLabel})</span>}
                 {line.variant && <span className="text-ink-500"> · {line.variant}</span>}
               </span>
               <span className="shrink-0 text-[15px] font-semibold text-ink-600">

@@ -12,6 +12,12 @@ dist
 dist-ssr
 *.local
 
+# Backend de voz — nunca subir claves de API
+server/.env
+
+# Certificado HTTPS autofirmado para pruebas locales/LAN — se regenera por máquina
+certs/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

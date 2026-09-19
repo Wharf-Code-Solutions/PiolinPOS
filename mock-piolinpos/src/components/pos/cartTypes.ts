@@ -1,13 +1,11 @@
-import type { SizeLabel } from "../../types";
-
 export interface CartLine {
   cartId: string;
-  productId: string;
+  productId: number;
   key: string;
   name: string;
   unitPrice: number;
   quantity: number;
-  sizeLabel?: SizeLabel;
+  /** Super Torta ingredient combo, e.g. "Milanesa + Jamón". */
   variant?: string;
   notes?: string;
 }
@@ -17,7 +15,7 @@ export function newCartId(): string {
   return `c${Date.now()}-${counter++}`;
 }
 
-/** Merges incoming lines into the cart, combining quantities when product + size + variant + notes match. */
+/** Merges incoming lines into the cart, combining quantities when product + variant + notes match. */
 export function mergeCartLines(existing: CartLine[], incoming: CartLine[]): CartLine[] {
   let result = [...existing];
   for (const line of incoming) {
@@ -25,7 +23,6 @@ export function mergeCartLines(existing: CartLine[], incoming: CartLine[]): Cart
       (l) =>
         l.productId === line.productId &&
         (l.notes ?? "") === (line.notes ?? "") &&
-        (l.sizeLabel ?? "") === (line.sizeLabel ?? "") &&
         (l.variant ?? "") === (line.variant ?? ""),
     );
     if (matchIndex !== -1) {
