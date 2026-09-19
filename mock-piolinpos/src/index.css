@@ -1,0 +1,82 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Public Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-display: "Fraunces", Georgia, serif;
+
+  /* Neutral scale — warm ivory/ink, not cool gray */
+  --color-ink-950: #14110d;
+  --color-ink-900: #1c1712;
+  --color-ink-800: #24201a;
+  --color-ink-700: #332c23;
+  --color-ink-600: #4a4033;
+  --color-ink-500: #665942;
+  --color-ink-400: #8a7c64;
+  --color-ink-300: #a99c82;
+  --color-ink-200: #c9beac;
+  --color-ink-100: #e1d9c9;
+  --color-ink-50: #ede7d9;
+
+  /* Canvas background: warm ivory rather than white/gray */
+  --color-canvas: #f7f3ea;
+
+  /* PiolinPOS accent: warm amber, used sparingly for primary actions/state */
+  --color-piolin-700: #9a5a0a;
+  --color-piolin-600: #bd7112;
+  --color-piolin-500: #d98a1f;
+  --color-piolin-400: #e8a748;
+  --color-piolin-100: #f8e3bd;
+  --color-piolin-50: #fbeed6;
+
+  /* Category accents — used only as a thin identifying strip, never decoration */
+  --color-cat-tortas: #d98a1f;
+  --color-cat-bebidas: #2f6f74;
+  --color-cat-snacks: #7a4a68;
+
+  /* Status */
+  --color-status-pending: #9a5a0a;
+  --color-status-pending-bg: #f8e3bd;
+  --color-status-done: #3d6b52;
+  --color-status-done-bg: #dcebe2;
+  --color-status-late: #c23b26;
+  --color-status-late-bg: #f6d9d2;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--color-canvas);
+  color: var(--color-ink-900);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  overscroll-behavior-y: none;
+}
+
+#root {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+}
+
+button {
+  font-family: inherit;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+input, textarea {
+  font-family: inherit;
+}
+
+::selection {
+  background: var(--color-piolin-100);
+}
+
+/* Scrollbars: visible but unobtrusive, no hover-dependent affordances */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-ink-200) transparent;
+}
