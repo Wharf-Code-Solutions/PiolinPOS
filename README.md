@@ -63,9 +63,3 @@ El respaldo en Drive requiere registrar el cliente OAuth (`docs/configuracion-go
 | Pedido por voz | En espera |
 | Carga del catálogo real | Pendiente con el cliente |
 
-Plan detallado: `docs/planeacion/plan-de-trabajo-entrega.md`.
-
-## Secretos
-
-Nunca se versionan: `app/android/key.properties`, `*.jks`, `*.keystore`, `.env`, credenciales de
-Google. Ver `.gitignore`.
