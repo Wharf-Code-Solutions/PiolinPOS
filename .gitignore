@@ -1,0 +1,37 @@
+# ---- Sistema operativo / editores ----
+.DS_Store
+Thumbs.db
+*.swp
+*~
+.idea/
+.vscode/
+*.iml
+
+# ---- Entregables generados ----
+dist/
+
+# ---- Secretos (NUNCA versionar) ----
+*.jks
+*.keystore
+key.properties
+.env
+.env.*
+**/google-services.json
+**/client_secret*.json
+
+# ---- Flutter (también hay un .gitignore dentro de app/) ----
+app/build/
+app/.dart_tool/
+app/.flutter-plugins
+app/.flutter-plugins-dependencies
+app/android/.gradle/
+app/android/.kotlin/
+app/android/local.properties
+app/android/app/debug/
+app/android/app/profile/
+app/android/app/release/
+
+# ---- Bases de datos locales de prueba ----
+*.db
+*.db-wal
+*.db-shm

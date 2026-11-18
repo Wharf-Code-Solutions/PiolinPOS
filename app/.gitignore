@@ -1,0 +1,31 @@
+# Flutter / Dart
+.dart_tool/
+.packages
+.pub-cache/
+.pub/
+build/
+.flutter-plugins
+.flutter-plugins-dependencies
+*.iml
+.idea/
+.vscode/
+coverage/
+
+# Android
+android/.gradle/
+android/.kotlin/
+android/local.properties
+android/app/debug
+android/app/profile
+android/app/release
+android/captures/
+android/gradlew
+android/gradlew.bat
+android/gradle/wrapper/gradle-wrapper.jar
+GeneratedPluginRegistrant.java
+.cxx/
+
+# Firma de release (NUNCA versionar). Ver docs/release.md
+key.properties
+**/*.keystore
+**/*.jks

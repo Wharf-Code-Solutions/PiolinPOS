@@ -1,0 +1,363 @@
+<!DOCTYPE html><html lang="es" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport">
+<meta content="mobile_tab" name="shell-type">
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Domine:wght@600;700&amp;family=Figtree:wght@500;600;700;800&amp;family=Hanken+Grotesk:wght@400;500;600;700&amp;family=Zilla+Slab:wght@600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<style>
+    @layer base {
+      html, body {
+        width: 100vw;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        overscroll-behavior: none;
+      }
+      .pb-safe {
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+      }
+      .pt-safe {
+        padding-top: env(safe-area-inset-top, 0px);
+      }
+    }
+    ::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#4B2A9B",              /* Morado Lona */
+            "primary-container": "#4B2A9B",
+            "primary-soft": "#E4DCF7",         /* Morado Suave */
+            "primary-fixed": "#E4DCF7",
+            "on-primary": "#ffffff",
+            "secondary": "#D42B23",            /* Rojo Etiqueta */
+            "secondary-container": "#D42B23",
+            "on-secondary": "#ffffff",
+            "tertiary": "#F6D21E",             /* Amarillo Canario */
+            "tertiary-fixed": "#F6D21E",
+            "on-tertiary": "#221B00",
+            "on-tertiary-fixed": "#221B00",
+            "background": "#FBF6E9",           /* Crema Oficial */
+            "surface": "#FBF6E9",
+            "surface-container-lowest": "#ffffff",
+            "surface-container-low": "#F7F2E4",
+            "surface-container": "#F0EBDC",
+            "surface-container-high": "#E7E2D3",
+            "surface-container-highest": "#DDD8C9",
+            "on-surface": "#231F20",
+            "on-surface-variant": "#58525A",
+            "outline": "#857E88",
+            "outline-variant": "#D6D0DC"
+          },
+          borderRadius: {
+            "DEFAULT": "0.375rem",
+            "lg": "0.625rem",
+            "xl": "0.875rem",
+            "2xl": "1.25rem",
+            "full": "9999px"
+          },
+          fontFamily: {
+            "headline": ["Figtree", "sans-serif"],
+            "zilla": ["Zilla Slab", "serif"],
+            "body": ["Hanken Grotesk", "sans-serif"],
+            "button-text": ["Figtree", "sans-serif"],
+            "label-md": ["Figtree", "sans-serif"]
+          }
+        }
+      }
+    };
+  </script>
+</head>
+<body class="bg-surface font-body text-on-surface antialiased flex flex-col min-h-screen select-none">
+<!-- CABECERA: Top app bar con logo El Piolín, título "Nuevo Pedido", pill "Paso 1 de 2". NO mostrar cajero -->
+<header class="fixed top-0 inset-x-0 z-50 bg-primary text-on-primary shadow-md pt-safe">
+<div class="h-16 px-4 flex items-center justify-between gap-3">
+<div class="flex items-center gap-3 min-w-0">
+<img alt="Logo El Piolín" class="h-9 w-auto object-contain flex-shrink-0 drop-shadow-sm" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDKAHN68q4v5bgpS2faTz63uAkH0rY6XrP4qGx3WVpeOekcZWuXKVoQmPV7blW_8F3T4cWLxlBTWEnrPZLhizWzUN3woIyXKqeFslvHvW-0KAPj_hQ5CPrK_W8BHQ9UbRgEEux1ZB8jsYhjRnCQtwis-JQc9sdTELAMSx5C3wHILl9FktnJlBOlnQDhH-vDxn3wXFPCMNsDinYNyEu7sKoXx6dF2cpGasXqVY6kbqXM0_BUlbUhoJlU">
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-2">
+<h1 class="font-headline font-extrabold text-[19px] leading-tight text-white tracking-tight truncate">Nuevo Pedido</h1>
+<span class="px-2 py-0.5 rounded-full bg-tertiary text-on-tertiary font-headline font-bold text-[11px] uppercase tracking-wide flex-shrink-0 shadow-sm">
+              Paso 1 de 2
+            </span>
+</div>
+<span class="font-body text-xs text-primary-soft/90 font-medium">Selección de platillos y notas</span>
+</div>
+</div>
+<div class="flex items-center gap-1.5 flex-shrink-0">
+<button class="w-10 h-10 flex items-center justify-center rounded-lg text-white hover:bg-white/10 active:bg-white/20 transition-colors" title="Sincronizar pedido" type="button">
+<span class="material-symbols-outlined text-[22px]">sync</span>
+</button>
+</div>
+</div>
+</header>
+<!-- MAIN SCROLL AREA -->
+<main class="flex flex-col relative w-full px-3.5 pt-20 pb-44 bg-surface flex-1">
+<div class="flex flex-col w-full space-y-3.5 mt-1">
+<!-- 2. PRIMERO EL NOMBRE DEL CLIENTE -->
+<section class="bg-surface-container-lowest rounded-2xl p-3 shadow-sm border border-primary/10">
+<label class="block font-headline text-xs font-bold text-primary uppercase tracking-wider mb-1.5 flex items-center gap-1.5" for="customer-name">
+<span class="material-symbols-outlined text-[17px] text-primary">person</span>
+          Nombre del cliente
+        </label>
+<div class="relative flex items-center">
+<input class="w-full bg-surface-container-low/70 border border-outline-variant focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-xl py-2 pl-3.5 pr-10 text-base font-headline font-semibold text-on-surface tracking-normal transition-all" id="customer-name" placeholder="Ej. Mesa 3 o Carlos" type="text" value="Carlos">
+<button class="absolute right-2 text-on-surface-variant hover:text-primary p-1 rounded-lg" title="Editar nombre" type="button">
+<span class="material-symbols-outlined text-[19px]">edit</span>
+</button>
+</div>
+</section>
+<!-- 3. DICTADO POR VOZ RÁPIDO (Botón/tarjeta Morado Suave con botón rojo de micro) -->
+<section class="relative overflow-hidden rounded-2xl bg-primary-soft border border-primary/25 p-3 shadow-xs">
+<div class="relative z-10 flex items-center gap-3">
+<button aria-label="Activar dictado por voz" class="w-12 h-12 rounded-full bg-secondary text-on-secondary shadow-md flex items-center justify-center active:scale-90 transition-transform flex-shrink-0 group" id="mic-btn" type="button">
+<span class="material-symbols-outlined text-[24px] group-hover:scale-110 transition-transform">mic</span>
+</button>
+<div class="flex flex-col flex-1 min-w-0">
+<div class="flex items-center justify-between mb-0.5">
+<span class="font-headline text-[11px] text-primary font-extrabold uppercase tracking-wider flex items-center gap-1">
+                Dictado Rápido
+              </span>
+<div class="flex items-end gap-[3px] h-3.5">
+<span class="w-[3px] h-2 bg-primary rounded-full animate-pulse"></span>
+<span class="w-[3px] h-3.5 bg-primary rounded-full animate-pulse" style="animation-delay: 150ms;"></span>
+<span class="w-[3px] h-2.5 bg-primary rounded-full animate-pulse" style="animation-delay: 300ms;"></span>
+<span class="w-[3px] h-4 bg-primary rounded-full animate-pulse" style="animation-delay: 75ms;"></span>
+<span class="w-[3px] h-2 bg-primary rounded-full animate-pulse" style="animation-delay: 220ms;"></span>
+</div>
+</div>
+<p class="font-body text-xs text-primary leading-tight">
+              Mantén presionado y habla — <span class="italic font-semibold">“tres de pastor, una quesadilla…”</span>
+</p>
+</div>
+</div>
+</section>
+<!-- 4. CATEGORÍAS: Chips táctiles -->
+<div class="flex items-center gap-2 overflow-x-auto no-scrollbar py-0.5">
+<button class="px-4 py-2 rounded-full bg-primary text-on-primary font-headline font-bold text-xs shadow-xs flex-shrink-0 flex items-center gap-1.5 transition-all" type="button">
+<span class="material-symbols-outlined text-[16px]">local_fire_department</span>
+<span>Tacos</span>
+</button>
+<button class="px-4 py-2 rounded-full bg-surface-container-lowest text-on-surface border border-outline-variant/60 hover:bg-surface-container font-headline font-semibold text-xs shadow-xs flex-shrink-0 transition-all" type="button">
+          Bebidas
+        </button>
+<button class="px-4 py-2 rounded-full bg-surface-container-lowest text-on-surface border border-outline-variant/60 hover:bg-surface-container font-headline font-semibold text-xs shadow-xs flex-shrink-0 transition-all" type="button">
+          Antojitos
+        </button>
+<button class="px-4 py-2 rounded-full bg-surface-container-lowest text-on-surface border border-outline-variant/60 hover:bg-surface-container font-headline font-semibold text-xs shadow-xs flex-shrink-0 transition-all" type="button">
+          Abarrotes
+        </button>
+</div>
+<!-- 5. PRODUCTOS EN CUADRÍCULA SIN IMÁGENES (2 Columnas con comentarios por producto) -->
+<div class="grid grid-cols-2 gap-2.5">
+<!-- Producto 1: Taco Pastor (Seleccionado x3, con comentario visible) -->
+<div class="relative flex flex-col justify-between rounded-2xl bg-surface-container-lowest p-3 shadow-sm border-2 border-primary bg-gradient-to-b from-primary-soft/30 to-surface-container-lowest transition-all">
+<div>
+<div class="flex items-start justify-between gap-1">
+<h2 class="font-headline font-bold text-[15px] text-on-surface leading-tight">Taco pastor</h2>
+<span class="px-1.5 py-0.5 rounded-md bg-secondary text-on-secondary font-headline font-extrabold text-[11px] shadow-xs flex-shrink-0">
+                3×
+              </span>
+</div>
+<div class="mt-1 font-zilla font-bold text-[19px] text-primary leading-none">
+              $18.00
+            </div>
+<!-- Comentario por producto -->
+<button class="w-full mt-2.5 px-2 py-1.5 rounded-lg bg-surface-container-low border border-primary/20 text-left flex items-start gap-1.5 active:bg-surface-container transition-colors" type="button">
+<span class="material-symbols-outlined text-[14px] text-secondary mt-0.5 flex-shrink-0">comment</span>
+<span class="font-body text-[11px] text-on-surface font-medium leading-tight truncate">
+                Sin cebolla en 1 taco
+              </span>
+</button>
+</div>
+<div class="flex items-center justify-end gap-1.5 mt-3 pt-2 border-t border-primary/10">
+<button aria-label="Disminuir Taco pastor" class="w-8 h-8 rounded-full bg-surface-container text-on-surface flex items-center justify-center hover:bg-primary hover:text-white transition-colors active:scale-95 shadow-xs" type="button">
+<span class="material-symbols-outlined text-[16px]">remove</span>
+</button>
+<span class="font-headline font-bold text-xs text-primary w-4 text-center">3</span>
+<button aria-label="Aumentar Taco pastor" class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center transition-colors active:scale-95 shadow-xs" type="button">
+<span class="material-symbols-outlined text-[16px]">add</span>
+</button>
+</div>
+</div>
+<!-- Producto 2: Taco bistec (No seleccionado) -->
+<div class="relative flex flex-col justify-between rounded-2xl bg-surface-container-lowest p-3 shadow-xs border border-outline-variant/60 transition-all hover:border-primary/40">
+<div>
+<div class="flex items-start justify-between gap-1">
+<h2 class="font-headline font-bold text-[15px] text-on-surface leading-tight">Taco bistec</h2>
+</div>
+<div class="mt-1 font-zilla font-bold text-[19px] text-on-surface leading-none">
+              $22.00
+            </div>
+<!-- Botón para añadir nota previa si se desea -->
+<button class="w-full mt-2.5 px-2 py-1.5 rounded-lg border border-dashed border-outline-variant text-on-surface-variant text-left flex items-center gap-1 active:bg-surface-container transition-colors" type="button">
+<span class="material-symbols-outlined text-[14px]">add_comment</span>
+<span class="font-headline text-[11px] font-medium">+ Nota</span>
+</button>
+</div>
+<div class="flex items-center justify-end gap-1.5 mt-3 pt-2 border-t border-outline-variant/30">
+<button aria-label="Agregar Taco bistec" class="w-8 h-8 rounded-full bg-surface-container text-on-surface flex items-center justify-center hover:bg-primary hover:text-white transition-colors active:scale-95 shadow-xs" type="button">
+<span class="material-symbols-outlined text-[18px]">add</span>
+</button>
+</div>
+</div>
+<!-- Producto 3: Quesadilla (Seleccionado x1, con comentario visible) -->
+<div class="relative flex flex-col justify-between rounded-2xl bg-surface-container-lowest p-3 shadow-sm border-2 border-primary bg-gradient-to-b from-primary-soft/30 to-surface-container-lowest transition-all">
+<div>
+<div class="flex items-start justify-between gap-1">
+<h2 class="font-headline font-bold text-[15px] text-on-surface leading-tight">Quesadilla</h2>
+<span class="px-1.5 py-0.5 rounded-md bg-secondary text-on-secondary font-headline font-extrabold text-[11px] shadow-xs flex-shrink-0">
+                1×
+              </span>
+</div>
+<div class="mt-1 font-zilla font-bold text-[19px] text-primary leading-none">
+              $35.00
+            </div>
+<!-- Comentario por producto -->
+<button class="w-full mt-2.5 px-2 py-1.5 rounded-lg bg-surface-container-low border border-primary/20 text-left flex items-start gap-1.5 active:bg-surface-container transition-colors" type="button">
+<span class="material-symbols-outlined text-[14px] text-secondary mt-0.5 flex-shrink-0">comment</span>
+<span class="font-body text-[11px] text-on-surface font-medium leading-tight truncate">
+                Con piña y salsa aparte
+              </span>
+</button>
+</div>
+<div class="flex items-center justify-end gap-1.5 mt-3 pt-2 border-t border-primary/10">
+<button aria-label="Disminuir Quesadilla" class="w-8 h-8 rounded-full bg-surface-container text-on-surface flex items-center justify-center hover:bg-primary hover:text-white transition-colors active:scale-95 shadow-xs" type="button">
+<span class="material-symbols-outlined text-[16px]">remove</span>
+</button>
+<span class="font-headline font-bold text-xs text-primary w-4 text-center">1</span>
+<button aria-label="Aumentar Quesadilla" class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center transition-colors active:scale-95 shadow-xs" type="button">
+<span class="material-symbols-outlined text-[16px]">add</span>
+</button>
+</div>
+</div>
+<!-- Producto 4: Gringa (No seleccionado) -->
+<div class="relative flex flex-col justify-between rounded-2xl bg-surface-container-lowest p-3 shadow-xs border border-outline-variant/60 transition-all hover:border-primary/40">
+<div>
+<div class="flex items-start justify-between gap-1">
+<h2 class="font-headline font-bold text-[15px] text-on-surface leading-tight">Gringa</h2>
+</div>
+<div class="mt-1 font-zilla font-bold text-[19px] text-on-surface leading-none">
+              $45.00
+            </div>
+<button class="w-full mt-2.5 px-2 py-1.5 rounded-lg border border-dashed border-outline-variant text-on-surface-variant text-left flex items-center gap-1 active:bg-surface-container transition-colors" type="button">
+<span class="material-symbols-outlined text-[14px]">add_comment</span>
+<span class="font-headline text-[11px] font-medium">+ Nota</span>
+</button>
+</div>
+<div class="flex items-center justify-end gap-1.5 mt-3 pt-2 border-t border-outline-variant/30">
+<button aria-label="Agregar Gringa" class="w-8 h-8 rounded-full bg-surface-container text-on-surface flex items-center justify-center hover:bg-primary hover:text-white transition-colors active:scale-95 shadow-xs" type="button">
+<span class="material-symbols-outlined text-[18px]">add</span>
+</button>
+</div>
+</div>
+<!-- Producto 5: Refresco 600ml -->
+<div class="relative flex flex-col justify-between rounded-2xl bg-surface-container-lowest p-3 shadow-xs border border-outline-variant/60 transition-all hover:border-primary/40">
+<div>
+<div class="flex items-start justify-between gap-1">
+<h2 class="font-headline font-bold text-[15px] text-on-surface leading-tight">Refresco 600ml</h2>
+</div>
+<div class="mt-1 font-zilla font-bold text-[19px] text-on-surface leading-none">
+              $20.00
+            </div>
+<button class="w-full mt-2.5 px-2 py-1.5 rounded-lg border border-dashed border-outline-variant text-on-surface-variant text-left flex items-center gap-1 active:bg-surface-container transition-colors" type="button">
+<span class="material-symbols-outlined text-[14px]">add_comment</span>
+<span class="font-headline text-[11px] font-medium">+ Sabor</span>
+</button>
+</div>
+<div class="flex items-center justify-end gap-1.5 mt-3 pt-2 border-t border-outline-variant/30">
+<button aria-label="Agregar Refresco" class="w-8 h-8 rounded-full bg-surface-container text-on-surface flex items-center justify-center hover:bg-primary hover:text-white transition-colors active:scale-95 shadow-xs" type="button">
+<span class="material-symbols-outlined text-[18px]">add</span>
+</button>
+</div>
+</div>
+<!-- Producto 6: Agua Horchata -->
+<div class="relative flex flex-col justify-between rounded-2xl bg-surface-container-lowest p-3 shadow-xs border border-outline-variant/60 transition-all hover:border-primary/40">
+<div>
+<div class="flex items-start justify-between gap-1">
+<h2 class="font-headline font-bold text-[15px] text-on-surface leading-tight">Agua Horchata</h2>
+</div>
+<div class="mt-1 font-zilla font-bold text-[19px] text-on-surface leading-none">
+              $25.00
+            </div>
+<button class="w-full mt-2.5 px-2 py-1.5 rounded-lg border border-dashed border-outline-variant text-on-surface-variant text-left flex items-center gap-1 active:bg-surface-container transition-colors" type="button">
+<span class="material-symbols-outlined text-[14px]">add_comment</span>
+<span class="font-headline text-[11px] font-medium">+ Nota</span>
+</button>
+</div>
+<div class="flex items-center justify-end gap-1.5 mt-3 pt-2 border-t border-outline-variant/30">
+<button aria-label="Agregar Agua Horchata" class="w-8 h-8 rounded-full bg-surface-container text-on-surface flex items-center justify-center hover:bg-primary hover:text-white transition-colors active:scale-95 shadow-xs" type="button">
+<span class="material-symbols-outlined text-[18px]">add</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- 6. BARRA FIJA INFERIOR: RESUMEN DE COMANDA Y BOTÓN CONTINUAR -->
+<section class="fixed bottom-16 inset-x-0 z-40 bg-surface-container-lowest/95 backdrop-blur-md border-t border-outline-variant/40 px-3.5 py-2.5 shadow-[0_-4px_20px_rgba(75,42,155,0.08)]">
+<div class="flex items-center justify-between mb-2">
+<div class="flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="font-headline font-bold text-xs text-on-surface">4 productos</span>
+<span class="text-xs text-on-surface-variant">· Cliente: <strong class="text-primary">Carlos</strong></span>
+</div>
+<div class="flex items-baseline gap-1">
+<span class="font-body text-xs text-on-surface-variant">Subtotal:</span>
+<span class="font-zilla font-bold text-xl text-primary leading-none">$89.00</span>
+</div>
+</div>
+<button class="w-full h-12 rounded-xl bg-primary text-white font-headline font-bold text-sm tracking-wide flex items-center justify-center gap-2 shadow-md hover:bg-primary/95 active:scale-[0.99] transition-all" type="button">
+<span>Continuar a confirmar pedido</span>
+<span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</button>
+</section>
+<!-- BOTTOM NAVIGATION BAR (Tabs: Cuentas, Menú [activo], Inventario, Reportes) -->
+<nav class="fixed bottom-0 inset-x-0 z-50 pb-safe bg-surface-container-lowest border-t border-outline-variant/30 shadow-lg">
+<div class="flex justify-around items-center h-16 px-1">
+<a class="relative flex flex-col items-center justify-center gap-1 min-w-[64px] min-h-[48px] px-2 text-on-surface-variant hover:text-primary transition-colors" data-path="cuentas" href="#">
+<span class="material-symbols-outlined text-[22px]">receipt_long</span>
+<span class="font-headline font-semibold text-[11px]">Cuentas</span>
+</a>
+<!-- ACTIVO: Menú -->
+<a class="relative flex flex-col items-center justify-center gap-1 min-w-[64px] min-h-[48px] px-2 text-primary font-bold transition-colors before:content-[''] before:absolute before:top-0 before:h-[3px] before:w-10 before:rounded-full before:bg-primary" data-path="menu" href="#">
+<span class="material-symbols-outlined text-[22px]" style="font-variation-settings: 'FILL' 1;">restaurant_menu</span>
+<span class="font-headline font-bold text-[11px]">Menú</span>
+</a>
+<a class="relative flex flex-col items-center justify-center gap-1 min-w-[64px] min-h-[48px] px-2 text-on-surface-variant hover:text-primary transition-colors" data-path="inventario" href="#">
+<span class="material-symbols-outlined text-[22px]">inventory_2</span>
+<span class="font-headline font-semibold text-[11px]">Inventario</span>
+</a>
+<a class="relative flex flex-col items-center justify-center gap-1 min-w-[64px] min-h-[48px] px-2 text-on-surface-variant hover:text-primary transition-colors" data-path="reportes" href="#">
+<span class="material-symbols-outlined text-[22px]">bar_chart</span>
+<span class="font-headline font-semibold text-[11px]">Reportes</span>
+</a>
+</div>
+</nav>
+<script>
+    // Voice Mic Touch Delight
+    const micBtn = document.getElementById('mic-btn');
+    if (micBtn) {
+      micBtn.addEventListener('mousedown', () => micBtn.classList.add('scale-110'));
+      micBtn.addEventListener('mouseup', () => micBtn.classList.remove('scale-110'));
+      micBtn.addEventListener('touchstart', () => micBtn.classList.add('scale-110'));
+      micBtn.addEventListener('touchend', () => micBtn.classList.remove('scale-110'));
+    }
+  </script>
+</body></html>

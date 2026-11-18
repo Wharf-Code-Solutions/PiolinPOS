@@ -1,0 +1,240 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Mock El Piolín POS</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800;900&display=swap">
+<style>
+/* Layout: encabezado corto + galería de celulares con una nota por pantalla + dudas abiertas */
+:root{
+  --page-bg:#FBF6E9; --page-fg:#1E1530; --page-muted:#6B6478; --page-line:#E6DEC9; --page-card:#fff;
+  --purple:#4B2A9B; --purple-deep:#33196F; --purple-soft:#E4DCF7;
+  --red:#D42B23; --yellow:#F6D21E; --orange:#EF8A17; --green:#2F9E5B;
+  --app-bg:#FBF6E9; --app-card:#fff; --app-ink:#1E1530; --app-muted:#6B6478; --app-line:#E6DEC9;
+  --font:'Figtree',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--page-bg:#150F22;--page-fg:#F3EBD6;--page-muted:#A9A1BB;--page-line:#33284A;--page-card:#1E1530;--purple-soft:#33196F;color-scheme:dark}}
+:root[data-theme="dark"]{--page-bg:#150F22;--page-fg:#F3EBD6;--page-muted:#A9A1BB;--page-line:#33284A;--page-card:#1E1530;--purple-soft:#33196F;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--page-bg);color:var(--page-fg);font-family:var(--font);font-size:16px;line-height:1.5;padding-block:32px 56px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1180px;margin:0 auto}
+header{display:flex;flex-direction:column;gap:10px;max-width:62ch;margin-bottom:36px}
+.tag{align-self:flex-start;background:var(--yellow);color:#1E1530;font-weight:800;font-size:12px;letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;border-radius:4px}
+h1{margin:0;font-size:clamp(30px,5vw,46px);line-height:1.05;font-weight:900;letter-spacing:-.02em;text-wrap:balance}
+header p{margin:0;color:var(--page-muted)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:44px 28px;justify-items:center}
+figure{margin:0;display:flex;flex-direction:column;gap:14px;width:300px;max-width:100%}
+figcaption h2{margin:0 0 4px;font-size:18px;font-weight:800}
+figcaption p{margin:0;font-size:14px;color:var(--page-muted)}
+figcaption .req{display:inline-block;margin-top:8px;font-size:12px;font-weight:700;color:var(--purple);background:var(--purple-soft);padding:2px 8px;border-radius:99px}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) figcaption .req{color:#E4DCF7}}
+:root[data-theme="dark"] figcaption .req{color:#E4DCF7}
+
+/* Celular */
+.phone{width:100%;aspect-ratio:300/600;background:#1E1530;border-radius:34px;padding:9px;box-shadow:0 14px 34px rgba(30,21,48,.25)}
+.screen{height:100%;background:var(--app-bg);color:var(--app-ink);border-radius:26px;overflow:hidden;display:flex;flex-direction:column;font-size:13px;line-height:1.35}
+.status{display:flex;justify-content:space-between;padding:8px 16px 2px;font-size:11px;font-weight:700;color:var(--app-muted)}
+.bar{background:var(--purple);color:#fff;padding:10px 14px 12px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.bar b{font-size:16px;font-weight:800}
+.bar small{opacity:.8;font-size:11px}
+.body{flex:1;min-height:0;padding:12px;display:flex;flex-direction:column;gap:9px;overflow:hidden}
+.nav{display:grid;grid-template-columns:repeat(4,1fr);background:var(--app-card);border-top:1px solid var(--app-line);padding:6px 4px 10px}
+.nav span{text-align:center;font-size:10px;font-weight:600;color:var(--app-muted);display:flex;flex-direction:column;align-items:center;gap:2px}
+.nav span i{width:22px;height:22px;border-radius:7px;background:var(--app-line)}
+.nav span.on{color:var(--purple)}.nav span.on i{background:var(--purple)}
+.card{background:var(--app-card);border:1px solid var(--app-line);border-radius:12px;padding:10px 12px}
+.row{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.name{font-weight:700;font-size:14px}
+.sub{color:var(--app-muted);font-size:11px}
+.price{font-weight:800;font-variant-numeric:tabular-nums}
+.pill{font-size:10px;font-weight:800;padding:2px 8px;border-radius:99px;white-space:nowrap}
+.p-open{background:var(--yellow);color:#1E1530}.p-wa{background:#DDF3E5;color:#1F7A44}.p-ok{background:#DDF3E5;color:#1F7A44}.p-low{background:#FBE0DE;color:#A81F18}
+.btn{display:block;text-align:center;font-weight:800;font-size:14px;padding:12px;border-radius:12px;background:var(--purple);color:#fff}
+.btn.red{background:var(--red)}.btn.ghost{background:var(--app-card);color:var(--purple);border:2px solid var(--purple)}
+.chips{display:flex;gap:6px;overflow:hidden}
+.chip{font-size:11px;font-weight:700;padding:5px 11px;border-radius:99px;background:var(--app-card);border:1px solid var(--app-line);white-space:nowrap}
+.chip.on{background:var(--purple);color:#fff;border-color:var(--purple)}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.tile{background:var(--app-card);border:1px solid var(--app-line);border-radius:12px;padding:9px;display:flex;flex-direction:column;gap:2px}
+.tile .em{height:30px;border-radius:8px;background:var(--purple-soft)}
+.tile.sel{border:2px solid var(--purple)}
+.qty{font-size:11px;font-weight:800;color:#fff;background:var(--red);border-radius:99px;padding:1px 7px;align-self:flex-start}
+.divider{height:1px;background:var(--app-line)}
+.voice{display:flex;align-items:center;gap:10px;background:var(--purple-soft);border:2px solid var(--purple);border-radius:14px;padding:8px 10px}
+.voice .mic{flex:none;width:40px;height:40px;border-radius:50%;background:var(--red);box-shadow:0 0 0 5px rgba(212,43,35,.2);position:relative}
+.voice .mic::after{content:"";position:absolute;left:15px;top:9px;width:10px;height:15px;border-radius:6px;background:#fff}
+.voice .txt{min-width:0;font-size:11px;color:var(--purple-deep)}
+.voice .txt b{display:block;font-size:12px}
+.voice .wave{display:flex;align-items:center;gap:2px;height:14px;margin-top:2px}
+.voice .wave i{display:block;width:3px;border-radius:2px;background:var(--purple)}
+.total{display:flex;justify-content:space-between;font-size:20px;font-weight:900}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.seg span{text-align:center;padding:10px 4px;border-radius:10px;font-weight:800;border:2px solid var(--app-line);background:var(--app-card)}
+.seg span.on{border-color:var(--purple);background:var(--purple-soft);color:var(--purple-deep)}
+.scan{border:2px dashed var(--purple);border-radius:14px;background:var(--purple-soft);color:var(--purple-deep);padding:18px 10px;text-align:center;font-weight:800;display:flex;flex-direction:column;gap:6px;align-items:center}
+.scan .code{display:flex;gap:2px;height:30px}.scan .code u{display:block;background:var(--purple-deep);width:2px}
+.bars{display:flex;align-items:flex-end;gap:6px;height:74px}
+.bars div{flex:1;background:var(--purple);border-radius:4px 4px 0 0}
+.bars div.today{background:var(--red)}
+.meter{height:10px;border-radius:99px;background:var(--app-line);overflow:hidden;display:flex}
+.meter i{display:block;height:100%}
+.offline{background:#FFF3C4;color:#5A4600;font-size:11px;font-weight:700;padding:6px 12px;display:flex;gap:6px;align-items:center}
+.offline::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--orange)}
+
+/* Dudas */
+section.open{margin-top:56px;border-top:2px solid var(--page-line);padding-top:28px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:24px 32px}
+section.open h2{grid-column:1/-1;margin:0;font-size:22px;font-weight:800}
+section.open div{background:var(--page-card);border:1px solid var(--page-line);border-radius:12px;padding:14px 16px;min-width:0}
+section.open h3{margin:0 0 4px;font-size:15px;font-weight:800}
+section.open p{margin:0;font-size:14px;color:var(--page-muted)}
+</style>
+
+<div class="wrap">
+<header>
+  <span class="tag">Mock conceptual · no funcional</span>
+  <h1>El Piolín, pedidos e inventario en el celular</h1>
+  <p>Seis pantallas para aclarar ideas antes de programar. Los productos, precios y existencias son de ejemplo y se reemplazan cuando lleguen los documentos del inventario.</p>
+</header>
+
+<div class="grid">
+
+<figure>
+  <div class="phone"><div class="screen">
+    <div class="status"><span>9:41</span><span>Ray</span></div>
+    <div class="bar"><div><b>Cuentas abiertas</b><br><small>Sábado · 4 sin cobrar</small></div></div>
+    <div class="body">
+      <div class="card row"><div><div class="name">Carlos</div><div class="sub">2 pedidos · hace 12 min</div></div><div style="text-align:right"><div class="price">$185</div><span class="pill p-open">Abierta</span></div></div>
+      <div class="card row"><div><div class="name">Mesa 3 · Familia Ruiz</div><div class="sub">1 pedido · hace 5 min</div></div><div style="text-align:right"><div class="price">$320</div><span class="pill p-open">Abierta</span></div></div>
+      <div class="card row"><div><div class="name">Lupita (WhatsApp)</div><div class="sub">Para llevar · hace 20 min</div></div><div style="text-align:right"><div class="price">$140</div><span class="pill p-wa">WhatsApp</span></div></div>
+      <div class="card row"><div><div class="name">Don Beto</div><div class="sub">Abarrotes · hace 1 min</div></div><div style="text-align:right"><div class="price">$68</div><span class="pill p-open">Abierta</span></div></div>
+      <div style="flex:1"></div>
+      <div class="btn red">+ Nuevo pedido</div>
+    </div>
+    <div class="nav"><span class="on"><i></i>Cuentas</span><span><i></i>Menú</span><span><i></i>Inventario</span><span><i></i>Reportes</span></div>
+  </div></div>
+  <figcaption><h2>Cuentas abiertas</h2><p>Pantalla de inicio. Cada cliente tiene una cuenta que sigue abierta hasta cobrarse, porque siempre se paga después de consumir.</p><span class="req">Pago al final · pedido en negocio o WhatsApp</span></figcaption>
+</figure>
+
+<figure>
+  <div class="phone"><div class="screen">
+    <div class="status"><span>9:42</span><span>Ray</span></div>
+    <div class="bar"><div><b>Nuevo pedido</b><br><small>Cliente: Carlos</small></div><span class="pill p-wa">En negocio</span></div>
+    <div class="body">
+      <div class="voice"><div class="mic"></div><div class="txt"><b>Mantén presionado y habla</b>“tres de pastor, una quesadilla…”<div class="wave"><i style="height:5px"></i><i style="height:11px"></i><i style="height:8px"></i><i style="height:14px"></i><i style="height:6px"></i><i style="height:12px"></i><i style="height:4px"></i><i style="height:9px"></i></div></div></div>
+      <div class="chips"><span class="chip on">Tacos</span><span class="chip">Bebidas</span><span class="chip">Antojitos</span><span class="chip">Abarrotes</span></div>
+      <div class="tiles">
+        <div class="tile sel"><div class="em"></div><span class="name">Taco pastor</span><span class="price">$18</span><span class="qty">× 3</span></div>
+        <div class="tile"><div class="em"></div><span class="name">Taco bistec</span><span class="price">$22</span></div>
+        <div class="tile"><div class="em"></div><span class="name">Gringa</span><span class="price">$45</span></div>
+        <div class="tile sel"><div class="em"></div><span class="name">Quesadilla</span><span class="price">$35</span><span class="qty">× 1</span></div>
+      </div>
+      <div style="flex:1"></div>
+      <div class="card row"><div><div class="name">4 productos</div><div class="sub">Se manda a cocina</div></div><div class="price" style="font-size:17px">$89</div></div>
+      <div class="btn">Mandar a cocina</div>
+    </div>
+    <div class="nav"><span><i></i>Cuentas</span><span class="on"><i></i>Menú</span><span><i></i>Inventario</span><span><i></i>Reportes</span></div>
+  </div></div>
+  <figcaption><h2>Tomar el pedido</h2><p>Categorías arriba, productos grandes y un toque para sumar. También se puede dictar: al mantener presionado el micrófono, la nota de voz llena el pedido sola y Ray solo lo revisa. El ticket sale en cocina, no se entrega al cliente.</p><span class="req">Pedido por voz · ticket para cocina</span></figcaption>
+</figure>
+
+<figure>
+  <div class="phone"><div class="screen">
+    <div class="status"><span>9:55</span><span>Ray</span></div>
+    <div class="bar"><div><b>Cuenta de Carlos</b><br><small>2 pedidos juntos</small></div><span class="pill p-open">Abierta</span></div>
+    <div class="body">
+      <div class="card" style="display:flex;flex-direction:column;gap:6px">
+        <div class="sub" style="font-weight:800">PEDIDO 1 · 9:42</div>
+        <div class="row"><span>3 Taco pastor</span><span class="price">$54</span></div>
+        <div class="row"><span>1 Quesadilla</span><span class="price">$35</span></div>
+        <div class="divider"></div>
+        <div class="sub" style="font-weight:800">PEDIDO 2 · 9:55</div>
+        <div class="row"><span>2 Refresco</span><span class="price">$40</span></div>
+        <div class="row"><span>1 Gringa</span><span class="price">$45</span></div>
+      </div>
+      <div class="offline">Pedido guardado en el celular</div>
+      <div style="flex:1"></div>
+      <div class="total"><span>Total</span><span>$174</span></div>
+      <div class="btn ghost">+ Agregar más</div>
+      <div class="btn red">Cobrar</div>
+    </div>
+    <div class="nav"><span class="on"><i></i>Cuentas</span><span><i></i>Menú</span><span><i></i>Inventario</span><span><i></i>Reportes</span></div>
+  </div></div>
+  <figcaption><h2>Sumar pedidos a la misma cuenta</h2><p>Si el cliente pide más a los minutos, se agrega a su cuenta y el total se junta. Todo queda guardado aunque falle la luz o el internet.</p><span class="req">2 pedidos juntos · sin luz</span></figcaption>
+</figure>
+
+<figure>
+  <div class="phone"><div class="screen">
+    <div class="status"><span>10:20</span><span>Ray</span></div>
+    <div class="bar"><div><b>Cobrar</b><br><small>Cuenta de Carlos</small></div></div>
+    <div class="body">
+      <div class="card" style="display:flex;flex-direction:column;gap:5px">
+        <div class="row"><span>Subtotal</span><span class="price">$174</span></div>
+        <div class="row"><span>Promo 2×1 refrescos</span><span class="price" style="color:var(--green)">−$20</span></div>
+        <div class="row"><span>Descuento cliente 10%</span><span class="price" style="color:var(--green)">−$15</span></div>
+      </div>
+      <div class="seg"><span>5%</span><span class="on">10%</span></div>
+      <div class="sub" style="font-weight:800">FORMA DE PAGO</div>
+      <div class="seg"><span class="on">Efectivo</span><span>Transferencia</span></div>
+      <div style="flex:1"></div>
+      <div class="total"><span>Total</span><span>$139</span></div>
+      <div class="btn red">Cobrar e imprimir ticket</div>
+    </div>
+    <div class="nav"><span class="on"><i></i>Cuentas</span><span><i></i>Menú</span><span><i></i>Inventario</span><span><i></i>Reportes</span></div>
+  </div></div>
+  <figcaption><h2>Cobrar</h2><p>Descuento en porcentaje para clientes especiales, promos aplicadas y pago en efectivo o transferencia. Al final se imprime el ticket.</p><span class="req">Descuento % · promos · efectivo o transferencia</span></figcaption>
+</figure>
+
+<figure>
+  <div class="phone"><div class="screen">
+    <div class="status"><span>8:05</span><span>Ray</span></div>
+    <div class="bar"><div><b>Inventario</b><br><small>Bebidas · carnes · abarrotes</small></div></div>
+    <div class="body">
+      <div class="scan"><div class="code"><u></u><u style="width:4px"></u><u></u><u style="width:3px"></u><u></u><u style="width:5px"></u><u></u><u style="width:2px"></u><u style="width:4px"></u><u></u></div>Escanear código de barras</div>
+      <div class="card row"><div><div class="name">Refresco cola 600 ml</div><div class="sub">Proveedor: Bebidas del Golfo</div></div><div style="text-align:right"><div class="price">48</div><span class="pill p-ok">Suficiente</span></div></div>
+      <div class="card row"><div><div class="name">Cerveza clara 355 ml</div><div class="sub">Proveedor: Distribuidora Jarocha</div></div><div style="text-align:right"><div class="price">6</div><span class="pill p-low">Poco</span></div></div>
+      <div class="card row"><div><div class="name">Carne al pastor (kg)</div><div class="sub">Proveedor: Carnicería López</div></div><div style="text-align:right"><div class="price">9</div><span class="pill p-ok">Suficiente</span></div></div>
+      <div style="flex:1"></div>
+      <div class="btn ghost">+ Registrar gasto imprevisto</div>
+    </div>
+    <div class="nav"><span><i></i>Cuentas</span><span><i></i>Menú</span><span class="on"><i></i>Inventario</span><span><i></i>Reportes</span></div>
+  </div></div>
+  <figcaption><h2>Inventario</h2><p>La cámara del celular escanea la bebida y suma o resta existencias. Cada producto muestra su proveedor y avisa cuando queda poco.</p><span class="req">Código de barras · proveedores · gastos imprevistos</span></figcaption>
+</figure>
+
+<figure>
+  <div class="phone"><div class="screen">
+    <div class="status"><span>23:10</span><span>Ray</span></div>
+    <div class="bar"><div><b>Reportes</b><br><small>Octubre</small></div><span class="pill p-wa" style="background:#fff">Mes ▾</span></div>
+    <div class="body">
+      <div class="card">
+        <div class="sub">Ventas de la semana</div>
+        <div class="price" style="font-size:22px">$12,480</div>
+        <div class="bars" style="margin-top:6px"><div style="height:45%"></div><div style="height:60%"></div><div style="height:38%"></div><div style="height:72%"></div><div style="height:85%"></div><div style="height:100%"></div><div class="today" style="height:55%"></div></div>
+      </div>
+      <div class="card" style="display:flex;flex-direction:column;gap:6px">
+        <div class="row"><span class="sub">Ventas vs. gastos en insumos</span></div>
+        <div class="meter"><i style="width:68%;background:var(--purple)"></i><i style="width:32%;background:var(--yellow)"></i></div>
+        <div class="row sub"><span>Ganancia estimada $8,490</span><span>Gastos $3,990</span></div>
+      </div>
+      <div class="card" style="display:flex;flex-direction:column;gap:4px">
+        <div class="row"><span class="name" style="font-size:12px">Más vendido</span><span class="price">Taco pastor</span></div>
+        <div class="row"><span class="name" style="font-size:12px">Poco interés</span><span class="price">Sincronizadas</span></div>
+      </div>
+    </div>
+    <div class="nav"><span><i></i>Cuentas</span><span><i></i>Menú</span><span><i></i>Inventario</span><span class="on"><i></i>Reportes</span></div>
+  </div></div>
+  <figcaption><h2>Reportes del mes</h2><p>Ventas en dinero, lo que más y menos se vende, y una comparación entre lo que se gastó en insumos y lo que se ganó. Un reporte por mes para ir guardándolos.</p><span class="req">Reportes mensuales · ventas vs. gasto</span></figcaption>
+</figure>
+
+</div>
+
+<section class="open">
+  <h2>Cosas que faltan por decidir</h2>
+  <div><h3>Impresora de tickets</h3><p>Hay que elegir un modelo que use rollo genérico, se consiga en Veracruz y conecte al celular Android.</p></div>
+  <div><h3>Sin internet</h3><p>Los pedidos se guardan en el celular. Falta definir cuándo se sincronizan y qué pasa si Ray y otra persona usan la app a la vez.</p></div>
+  <div><h3>Usuarios</h3><p>Es opcional, pero registrar quién atiende serviría para saber quién tomó cada pedido.</p></div>
+  <div><h3>Precios y menú</h3><p>La persona encargada los cambiará sola. Falta ver si basta con editar un precio o si también hay que crear productos nuevos.</p></div>
+  <div><h3>Margen de error</h3><p>Productos fuera de inventario con un porcentaje de tolerancia y un lugar para anotar gastos imprevistos.</p></div>
+  <div><h3>Tabletas a futuro</h3><p>Las pantallas deben acomodarse bien en una tableta sin rehacerse.</p></div>
+</section>
+</div>
+
+</body></html>
